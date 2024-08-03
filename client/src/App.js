@@ -12,7 +12,8 @@ import HomePage from "./pages/HomePage";
 import "./assets/styles/output.css";
 
 const App = () => {
-  const [isLoggedIn] = useState(false);
+  // Temporarily set isLoggedIn to true for testing
+  const [isLoggedIn] = useState(true);
 
   return (
     <Router>

@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import EHBLogo from "../assets/images/EHBLOGO.png";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -12,8 +13,10 @@ const RegisterPage = () => {
   return (
     <div className="flex items-center justify-center w-screen h-screen bg-primary font-jetbrains">
       <div className="p-10 w-full max-w-3xl bg-secondary">
-        <h1 className="text-2xl font-bold mb-4">
-          Welcome to the EHB Student Forum
+        <h1 className="text-2xl font-bold mb-2 flex items-center">
+          Welcome to the
+          <img src={EHBLogo} alt="EHB Logo" className="h-8 mx-3 mb-1" />
+          Student Forum
         </h1>
         <p className="mb-6">Create an account to access the forum</p>
         <form>
@@ -25,7 +28,7 @@ const RegisterPage = () => {
               Username
             </label>
             <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline"
               id="username"
               type="text"
               placeholder="Username"
@@ -39,7 +42,7 @@ const RegisterPage = () => {
               Email
             </label>
             <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline"
               id="email"
               type="email"
               placeholder="Email"
@@ -53,7 +56,7 @@ const RegisterPage = () => {
               Password
             </label>
             <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-primary mb-3 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border w-full py-2 px-3 text-primary mb-3 leading-tight focus:outline-none focus:shadow-outline"
               id="password"
               type="password"
               placeholder="Password"
@@ -62,14 +65,14 @@ const RegisterPage = () => {
           <div className="flex items-center justify-between">
             <div>
               <button
-                className="bg-primary hover:bg-blue-800 text-secondary font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2"
+                className="bg-primary hover:bg-blue-800 text-secondary font-bold py-2 px-4 focus:outline-none focus:shadow-outline mr-2"
                 type="button"
                 onClick={handleRegister}
               >
                 Register
               </button>
               <button
-                className="bg-primary hover:bg-blue-800 text-secondary font-bold py-2 px-4 ml-4 rounded focus:outline-none focus:shadow-outline"
+                className="bg-primary hover:bg-blue-800 text-secondary font-bold py-2 px-4 ml-4 focus:outline-none focus:shadow-outline"
                 type="button"
                 onClick={() => navigate("/login")}
               >
