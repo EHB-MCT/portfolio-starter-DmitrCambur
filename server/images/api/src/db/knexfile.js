@@ -7,11 +7,15 @@ module.exports = {
   development: {
     client: "pg",
     connection: {
-      host: process.env.POSTGRES_HOST,
+      host: "store",
       user: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
-      database: process.env.POSTGRES_DB,
-      port: process.env.POSTGRES_PORT,
+      database: process.env.POSTGRES_DB || "postgres",
+      port: process.env.POSTGRES_PORT || 5432,
+    },
+    pool: {
+      min: 2,
+      max: 50,
     },
     migrations: {
       directory: "./migrations",

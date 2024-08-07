@@ -4,12 +4,10 @@ WORKDIR /usr/app
 
 COPY package*.json ./
 
-RUN npm install --quiet
+RUN npm install
 
-RUN npm install -g nodemon
-
-COPY ./ ./
+COPY . .
 
 EXPOSE 3000
 
-CMD ["npm", "start"]
+CMD ["npm", "run", "go"]
