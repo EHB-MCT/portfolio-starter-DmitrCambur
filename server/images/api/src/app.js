@@ -21,8 +21,10 @@ app.use(cors());
 
 const usersRouter = require("./routes/users");
 const threadsRouter = require("./routes/threads");
+const repliesRouter = require("./routes/replies");
 app.use("/api", usersRouter);
 app.use("/api", threadsRouter);
+app.use("/api", repliesRouter);
 
 app.get("/", async (req, res) => {
   try {
