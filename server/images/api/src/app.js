@@ -20,7 +20,9 @@ app.use(express.json());
 app.use(cors());
 
 const usersRouter = require("./routes/users");
+const threadsRouter = require("./routes/threads");
 app.use("/api", usersRouter);
+app.use("/api", threadsRouter);
 
 app.get("/", async (req, res) => {
   try {
