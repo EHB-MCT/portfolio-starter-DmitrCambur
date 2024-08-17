@@ -1,5 +1,4 @@
-import { useState } from "react";
-import "./assets/styles/input.css";
+import React, { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -9,11 +8,20 @@ import {
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import HomePage from "./pages/HomePage";
+import "./assets/styles/input.css";
 import "./assets/styles/output.css";
 
 const App = () => {
-  // Temporarily set isLoggedIn to true for testing
-  const [isLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    // Simulate delay to ensure session storage is properly accessed
+    const checkSession = async () => {
+      await new Promise((resolve) => setTimeout(resolve, 100)); // 100ms delay
+      setIsLoggedIn(Boolean(sessionStorage.getItem("user")));
+    };
+    checkSession();
+  }, []);
 
   return (
     <Router>
@@ -24,7 +32,7 @@ const App = () => {
           path="/home"
           element={isLoggedIn ? <HomePage /> : <Navigate to="/login" />}
         />
-        <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     </Router>
   );

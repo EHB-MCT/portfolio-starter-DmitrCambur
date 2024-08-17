@@ -1,13 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import EHBLogo from "../assets/images/EHBLOGO.png";
+import { loginUser } from "../services/api";
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const handleLogin = () => {
-    // Perform login logic
-    navigate("/home");
+  const handleLogin = async () => {
+    try {
+      const credentials = { username, password };
+      const result = await loginUser(credentials);
+      if (result.user) {
+        sessionStorage.setItem("user", JSON.stringify(result.user));
+        navigate("/home"); // Navigate to home page after successful login
+      }
+    } catch (err) {
+      setError(err.message); // Display error message if login fails
+    }
   };
 
   return (
@@ -20,9 +32,8 @@ const LoginPage = () => {
             Student Forum
           </h1>
         </div>
-        <p className="mb-6">
-          Login with the account you created to access the forum
-        </p>
+        <p className="mb-6">Login with your account to access the forum</p>
+        {error && <p className="text-red-500 mb-4">{error}</p>}
         <form>
           <div className="mb-4">
             <label
@@ -36,6 +47,8 @@ const LoginPage = () => {
               id="username"
               type="text"
               placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
           </div>
           <div className="mb-6">
@@ -50,25 +63,25 @@ const LoginPage = () => {
               id="password"
               type="password"
               placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <div className="flex items-center justify-between">
-            <div>
-              <button
-                className="bg-primary hover:bg-blue-800 text-secondary font-bold py-2 px-4 focus:outline-none focus:shadow-outline mr-2"
-                type="button"
-                onClick={handleLogin}
-              >
-                Sign In
-              </button>
-              <button
-                className="bg-primary hover:bg-blue-800 text-secondary font-bold py-2 px-4 ml-4 focus:outline-none focus:shadow-outline"
-                type="button"
-                onClick={() => navigate("/register")}
-              >
-                Register
-              </button>
-            </div>
+            <button
+              className="bg-primary hover:bg-blue-800 text-secondary font-bold py-2 px-4 focus:outline-none focus:shadow-outline mr-2"
+              type="button"
+              onClick={handleLogin}
+            >
+              Login
+            </button>
+            <button
+              className="bg-primary hover:bg-blue-800 text-secondary font-bold py-2 px-4 ml-4 focus:outline-none focus:shadow-outline"
+              type="button"
+              onClick={() => navigate("/register")}
+            >
+              Register
+            </button>
           </div>
         </form>
       </div>
