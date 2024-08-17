@@ -20,6 +20,7 @@ initializeDatabase().catch((err) => {
   process.exit(1);
 });
 
+// Create a new user
 router.post("/users", async (req, res) => {
   const { username, password, role } = req.body;
 
@@ -51,7 +52,17 @@ router.post("/users", async (req, res) => {
   }
 
   try {
+    // Check if the username already exists
+    const existingUser = await knex("Users").where({ username }).first();
+
+    if (existingUser) {
+      return res.status(400).json({ error: "Username is already taken" });
+    }
+
+    // Hash the password
     const password_hash = await bcrypt.hash(password, 10);
+
+    // Insert new user
     const [insertedUser] = await knex("Users")
       .insert({
         UUID: knex.raw("public.uuid_generate_v4()"),
@@ -60,6 +71,7 @@ router.post("/users", async (req, res) => {
         role,
       })
       .returning("*");
+
     res.status(201).json(insertedUser);
   } catch (err) {
     console.error("Error inserting user:", err);
@@ -92,6 +104,19 @@ router.get("/users/:id", async (req, res) => {
         .status(500)
         .json({ error: "An error occurred while fetching the user." });
     });
+});
+
+// Retrieve all users
+router.get("/users", async (req, res) => {
+  try {
+    const users = await knex("Users").select("*");
+    res.json(users);
+  } catch (err) {
+    console.error("Error retrieving users:", err);
+    res
+      .status(500)
+      .json({ error: "An error occurred while retrieving users." });
+  }
 });
 
 // Update a specific user by ID

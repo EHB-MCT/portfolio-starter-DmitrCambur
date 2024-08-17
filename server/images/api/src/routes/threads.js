@@ -7,36 +7,42 @@ const knex = require("knex")(knexConfig.development);
 router.post("/threads", async (req, res) => {
   const { title, content, user_id, status } = req.body;
 
+  // Validate thread data
   const validationError = validateThread({ title, content, user_id, status });
   if (validationError) {
     return res.status(400).json({ error: validationError });
   }
 
   try {
+    // Insert new thread into the database
     const [newThread] = await knex("Threads")
       .insert({ title, content, user_id, status })
       .returning(["thread_id", "title", "content", "user_id", "status"]);
+
+    // Respond with the created thread
     res.status(201).json(newThread);
   } catch (error) {
+    console.error("Failed to create thread:", error); // Log server-side error
     res.status(500).json({ error: "Failed to create thread" });
   }
 });
 
+// Validate thread data
 function validateThread({ title, content, user_id, status }) {
   if (!title || !content || !user_id || !status) {
-    return "Title, content, user_id, and status are required";
+    return "Title, content, user_id, and status are required.";
   }
   if (title.length > 100) {
-    return "Title cannot be longer than 100 characters";
+    return "Title cannot be longer than 100 characters.";
   }
   if (title.length < 10) {
-    return "Title must be at least 10 characters long";
+    return "Title must be at least 10 characters long.";
   }
   if (content.length > 2000) {
-    return "Content cannot be longer than 2000 characters";
+    return "Content cannot be longer than 2000 characters.";
   }
   if (content.length < 20) {
-    return "Content must be at least 20 characters long";
+    return "Content must be at least 20 characters long.";
   }
   return null;
 }
@@ -53,6 +59,17 @@ router.get("/threads/:id", async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({ error: "Failed to retrieve thread" });
+  }
+});
+
+// GET /threads - Retrieve all threads
+router.get("/threads", async (req, res) => {
+  try {
+    const threads = await knex("Threads").select("*");
+    res.status(200).json(threads);
+  } catch (error) {
+    console.error("Error retrieving threads:", error);
+    res.status(500).json({ error: "Failed to retrieve threads" });
   }
 });
 

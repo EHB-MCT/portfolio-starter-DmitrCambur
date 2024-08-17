@@ -27,12 +27,47 @@ To set up and run the project, follow these instructions:
 3. **Run the React Client**:
    - Open a new terminal and navigate to the `client` folder. Start the React development server by running:
      ```bash
-     npm start
+     npm run start
      ```
+
+## API Endpoints
+
+### User Endpoints
+
+| **Method** | **Path**             | **Description**                                   |
+| ---------- | -------------------- | ------------------------------------------------- |
+| POST       | `/api/users`         | Registers a new user.                             |
+| POST       | `/api/users/login`   | Authenticates a user and returns a session token. |
+| GET        | `/api/users/:userId` | Fetches details of a user by their ID.            |
+| GET        | `/api/users`         | Retrieves a list of all users.                    |
+| PUT        | `/api/users/:userId` | Updates details of a user by their ID.            |
+| DELETE     | `/api/users/:userId` | Deletes a user by their ID.                       |
+
+### Thread Endpoints
+
+| **Method** | **Path**                 | **Description**                        |
+| ---------- | ------------------------ | -------------------------------------- |
+| POST       | `/api/threads`           | Creates a new thread.                  |
+| GET        | `/api/threads/:threadId` | Fetches details of a thread by its ID. |
+| GET        | `/api/threads`           | Retrieves a list of all threads.       |
+| PUT        | `/api/threads/:threadId` | Updates details of a thread by its ID. |
+| DELETE     | `/api/threads/:threadId` | Deletes a thread by its ID.            |
+
+### Reply Endpoints
+
+| **Method** | **Path**                        | **Description**                              |
+| ---------- | ------------------------------- | -------------------------------------------- |
+| POST       | `/api/replies`                  | Posts a new reply to a thread.               |
+| GET        | `/api/replies/:replyId`         | Fetches details of a reply by its ID.        |
+| GET        | `/api/replies/thread/:threadId` | Retrieves all replies for a specific thread. |
+| GET        | `/api/replies`                  | Retrieves a list of all replies.             |
+| PUT        | `/api/replies/:replyId`         | Updates details of a reply by its ID.        |
+| PUT        | `/api/replies/:replyId`         | Updates the status of a reply.               |
+| DELETE     | `/api/replies/:replyId`         | Deletes a reply by its ID.                   |
 
 ## Current Status
 
-The project is actively being developed, with ongoing work on testing and feature implementation.
+The project is fully operational and the first version (1.0.0) is now usable. The Student Forum is fully functional, with all core features implemented and working as intended.
 
 ## Support and Inquiries
 

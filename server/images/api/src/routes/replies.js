@@ -55,15 +55,38 @@ router.get("/replies/:id", async (req, res) => {
   }
 });
 
+// GET /replies - Retrieve all replies
+router.get("/replies", async (req, res) => {
+  try {
+    const replies = await knex("Replies").select("*");
+    res.status(200).json(replies);
+  } catch (error) {
+    console.error("Error retrieving replies:", error);
+    res.status(500).json({ error: "Failed to retrieve replies" });
+  }
+});
+
+// GET /replies/thread/:threadId - Retrieve all replies for a specific thread
+router.get("/replies/thread/:threadId", async (req, res) => {
+  const { threadId } = req.params;
+  try {
+    const replies = await knex("Replies").where({ thread_id: threadId });
+    res.status(200).json(replies);
+  } catch (error) {
+    console.error("Error retrieving replies for thread:", error);
+    res.status(500).json({ error: "Failed to retrieve replies for thread" });
+  }
+});
+
 // PUT /replies/:id - Update a specific reply by ID
 router.put("/replies/:id", async (req, res) => {
   const { id } = req.params;
   const { content, status } = req.body;
 
   // Validate required fields
-  if (!content || !status) {
+  if (!status) {
     return res.status(400).json({
-      error: "Content and status are required",
+      error: "Status is required",
     });
   }
 

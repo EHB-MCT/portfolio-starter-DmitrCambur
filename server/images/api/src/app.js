@@ -22,24 +22,10 @@ app.use(cors());
 const usersRouter = require("./routes/users");
 const threadsRouter = require("./routes/threads");
 const repliesRouter = require("./routes/replies");
+
 app.use("/api", usersRouter);
 app.use("/api", threadsRouter);
 app.use("/api", repliesRouter);
-
-app.get("/", async (req, res) => {
-  try {
-    const client = await pool.connect();
-    const result = await client.query('SELECT * FROM "Users"');
-    client.release();
-
-    console.log("Fetched users:", result.rows);
-
-    res.json(result.rows);
-  } catch (err) {
-    console.error("Error during query:", err);
-    res.send("Error " + err);
-  }
-});
 
 app.get("/health", (req, res) => {
   res.status(200).send("OK");
