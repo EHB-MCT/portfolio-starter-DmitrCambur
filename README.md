@@ -1,5 +1,9 @@
 # Student Forum API
 
+
+https://github.com/user-attachments/assets/b96b52fc-034b-4eb6-bc3c-5d17ecf82ff8
+
+
 ## Project Overview
 
 The **Student Forum API** project is structured with two main components: `client` and `server`. The `client` folder contains a React.js application that serves as the frontend, while the `server` folder includes the backend setup.
