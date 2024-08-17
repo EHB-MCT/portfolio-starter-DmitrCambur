@@ -1,27 +1,40 @@
 import React, { useState, useEffect } from "react";
-import { getData } from "./api";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import HomePage from "./pages/HomePage";
+import "./assets/styles/input.css";
+import "./assets/styles/output.css";
 
 const App = () => {
-  const [data, setData] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getData();
-        setData(result);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
+    // Simulate delay to ensure session storage is properly accessed
+    const checkSession = async () => {
+      await new Promise((resolve) => setTimeout(resolve, 100)); // 100ms delay
+      setIsLoggedIn(Boolean(sessionStorage.getItem("user")));
     };
-
-    fetchData();
+    checkSession();
   }, []);
 
   return (
-    <div>
-      <h1>API Data</h1>
-      {data ? <pre>{JSON.stringify(data, null, 2)}</pre> : <p>Loading...</p>}
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route
+          path="/home"
+          element={isLoggedIn ? <HomePage /> : <Navigate to="/login" />}
+        />
+        <Route path="*" element={<Navigate to="/login" />} />
+      </Routes>
+    </Router>
   );
 };
 
