@@ -4,6 +4,20 @@ const knexConfig = require("../db/knexfile");
 const knex = require("knex")(knexConfig.development);
 const bcrypt = require("bcryptjs");
 
+/**
+ * User Parameters
+ *
+ * Represents the structure of a user object in the system.
+ *
+ * @typedef {object} User
+ * @property {number} user_id - Unique identifier for the user.
+ * @property {string} username - Name of the user.
+ * @property {string} password - Password of the user.
+ * @property {string} role - Role of the user (e.g., student, teacher).
+ * @property {string} created_at - Timestamp of when the user record was created.
+ * @property {string} updated_at - Timestamp of when the user record was last updated.
+ */
+
 // Function to initialize the database
 async function initializeDatabase() {
   try {
@@ -20,7 +34,19 @@ initializeDatabase().catch((err) => {
   process.exit(1);
 });
 
-// Create a new user
+/**
+ * POST /users
+ *
+ * This route creates a new user in the database.
+ * It expects the user's username, password, and role in the request body.
+ * If the user is successfully created, it returns the newly created user as JSON.
+ * If there are validation errors or other issues, it returns an appropriate error message.
+ *
+ * @param {object} req - The HTTP request object.
+ * @param {User} req.body - The HTTP request body contains the user.
+ * @param {object} res - The HTTP response object.
+ * @returns {object} JSON response with either the newly created user or an error message.
+ */
 router.post("/users", async (req, res) => {
   const { username, password, role } = req.body;
 
@@ -79,7 +105,20 @@ router.post("/users", async (req, res) => {
   }
 });
 
-// Retrieve a specific user by ID
+/**
+ * GET /users/:id
+ *
+ * This route retrieves a specific user's information from the database based on the provided ID.
+ * It expects the user's ID as a parameter in the URL.
+ * If the user is found, it returns the user's information as JSON.
+ * If the user is not found, it returns a 404 Not Found error.
+ *
+ * @param {object} req - The HTTP request object.
+ * @param {object} req.params - The HTTP request parameters.
+ * @param {number} req.params.id - The ID of the user to retrieve.
+ * @param {object} res - The HTTP response object.
+ * @returns {object} JSON response with either the user's information or an error message.
+ */
 router.get("/users/:id", async (req, res) => {
   const id = parseInt(req.params.id);
 
@@ -106,7 +145,17 @@ router.get("/users/:id", async (req, res) => {
     });
 });
 
-// Retrieve all users
+/**
+ * GET /users
+ *
+ * This route retrieves all users from the database.
+ * It returns an array of user objects as JSON.
+ * If there is an error retrieving the users, it returns an appropriate error message.
+ *
+ * @param {object} req - The HTTP request object.
+ * @param {object} res - The HTTP response object.
+ * @returns {object} JSON response with either the array of users or an error message.
+ */
 router.get("/users", async (req, res) => {
   try {
     const users = await knex("Users").select("*");
@@ -119,7 +168,21 @@ router.get("/users", async (req, res) => {
   }
 });
 
-// Update a specific user by ID
+/**
+ * PUT /users/:id
+ *
+ * This route updates a specific user's information in the database based on the provided ID.
+ * It expects the user's ID as a parameter in the URL and the updated user information in the request body.
+ * If the user is successfully updated, it returns the updated user as JSON.
+ * If the user is not found, it returns a 404 Not Found error.
+ *
+ * @param {object} req - The HTTP request object.
+ * @param {object} req.params - The HTTP request parameters.
+ * @param {number} req.params.id - The ID of the user to update.
+ * @param {User} req.body - The HTTP request body contains the updated user information.
+ * @param {object} res - The HTTP response object.
+ * @returns {object} JSON response with either the updated user or an error message.
+ */
 router.put("/users/:id", async (req, res) => {
   const id = parseInt(req.params.id);
   const userUpdates = req.body;
@@ -147,6 +210,20 @@ router.put("/users/:id", async (req, res) => {
   }
 });
 
+/**
+ * DELETE /users/:id
+ *
+ * This route deletes a specific user from the database based on the provided ID.
+ * It expects the user's ID as a parameter in the URL.
+ * If the user is successfully deleted, it returns a success message.
+ * If the user is not found, it returns a 404 Not Found error.
+ *
+ * @param {object} req - The HTTP request object.
+ * @param {object} req.params - The HTTP request parameters.
+ * @param {number} req.params.id - The ID of the user to delete.
+ * @param {object} res - The HTTP response object.
+ * @returns {object} JSON response with either a success message or an error message.
+ */
 // Validate user ID
 const isValidUserId = (id) => {
   return Number.isInteger(Number(id));
@@ -197,7 +274,21 @@ router.delete("/users/:id", async (req, res) => {
   }
 });
 
-// Validate user login
+/**
+ * POST /users/login
+ *
+ * This route validates a user's login credentials.
+ * It expects the user's username and password in the request body.
+ * If the credentials are valid, it returns a success message and the user's information.
+ * If the credentials are invalid, it returns an appropriate error message.
+ *
+ * @param {object} req - The HTTP request object.
+ * @param {object} req.body - The HTTP request body contains the login credentials.
+ * @param {string} req.body.username - The username of the user.
+ * @param {string} req.body.password - The password of the user.
+ * @param {object} res - The HTTP response object.
+ * @returns {object} JSON response with either a success message and user information or an error message.
+ */
 router.post("/users/login", async (req, res) => {
   const { username, password } = req.body || {};
 

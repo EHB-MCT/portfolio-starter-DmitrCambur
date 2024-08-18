@@ -3,7 +3,33 @@ const router = express.Router();
 const knexConfig = require("../db/knexfile");
 const knex = require("knex")(knexConfig.development);
 
-// POST /replies - Create a new reply
+/**
+ * Reply Parameters
+ * Represents the structure of a reply object in the system.
+ *
+ * @typedef {object} Reply
+ * @property {number} reply_id - Unique identifier for the reply.
+ * @property {string} content - Content of the reply.
+ * @property {number} thread_id - ID of the thread the reply belongs to.
+ * @property {number} user_id - ID of the user who created the reply.
+ * @property {string} status - Status of the reply.
+ * @property {string} created_at - Timestamp of when the reply was created.
+ * @property {string} updated_at - Timestamp of when the reply was last updated.
+ */
+
+/**
+ * POST /replies
+ *
+ * This route creates a new reply in the database.
+ * It expects the reply's content, thread_id, user_id, and status in the request body.
+ * If the reply is successfully created, it returns the newly created reply as JSON.
+ * If there are validation errors or other issues, it returns an appropriate error message.
+ *
+ * @param {object} req - The HTTP request object.
+ * @param {Reply} req.body - The HTTP request body contains the reply.
+ * @param {object} res - The HTTP response object.
+ * @returns {object} JSON response with either the newly created reply or an error message.
+ */
 router.post("/replies", async (req, res) => {
   const { content, thread_id, user_id, status } = req.body;
 
@@ -27,6 +53,15 @@ router.post("/replies", async (req, res) => {
   }
 });
 
+/**
+ * Validate reply data
+ * @param {object} reply - The reply object to validate.
+ * @param {string} reply.content - The content of the reply.
+ * @param {number} reply.thread_id - The ID of the thread the reply belongs to.
+ * @param {number} reply.user_id - The ID of the user who created the reply.
+ * @param {string} reply.status - The status of the reply.
+ * @returns {string|null} Validation error message or null if valid.
+ */
 function validateReply({ content, thread_id, user_id, status }) {
   if (!content || !thread_id || !user_id || !status) {
     return "Content, thread_id, user_id, and status are required";
@@ -40,7 +75,20 @@ function validateReply({ content, thread_id, user_id, status }) {
   return null;
 }
 
-// GET /replies/:id - Get a specific reply by ID
+/**
+ * GET /replies/:id
+ *
+ * This route retrieves a specific reply's information from the database based on the provided ID.
+ * It expects the reply's ID as a parameter in the URL.
+ * If the reply is found, it returns the reply's information as JSON.
+ * If the reply is not found, it returns a 404 Not Found error.
+ *
+ * @param {object} req - The HTTP request object.
+ * @param {object} req.params - The HTTP request parameters.
+ * @param {number} req.params.id - The ID of the reply to retrieve.
+ * @param {object} res - The HTTP response object.
+ * @returns {object} JSON response with either the reply's information or an error message.
+ */
 router.get("/replies/:id", async (req, res) => {
   const { id } = req.params;
   try {
@@ -55,7 +103,17 @@ router.get("/replies/:id", async (req, res) => {
   }
 });
 
-// GET /replies - Retrieve all replies
+/**
+ * GET /replies
+ *
+ * This route retrieves all replies from the database.
+ * It returns an array of reply objects as JSON.
+ * If there is an error retrieving the replies, it returns an appropriate error message.
+ *
+ * @param {object} req - The HTTP request object.
+ * @param {object} res - The HTTP response object.
+ * @returns {object} JSON response with either the array of replies or an error message.
+ */
 router.get("/replies", async (req, res) => {
   try {
     const replies = await knex("Replies").select("*");
@@ -66,7 +124,20 @@ router.get("/replies", async (req, res) => {
   }
 });
 
-// GET /replies/thread/:threadId - Retrieve all replies for a specific thread
+/**
+ * GET /replies/thread/:threadId
+ *
+ * This route retrieves all replies for a specific thread from the database based on the provided thread ID.
+ * It expects the thread's ID as a parameter in the URL.
+ * If the replies are found, it returns an array of reply objects as JSON.
+ * If there is an error retrieving the replies, it returns an appropriate error message.
+ *
+ * @param {object} req - The HTTP request object.
+ * @param {object} req.params - The HTTP request parameters.
+ * @param {number} req.params.threadId - The ID of the thread to retrieve replies for.
+ * @param {object} res - The HTTP response object.
+ * @returns {object} JSON response with either the array of replies or an error message.
+ */
 router.get("/replies/thread/:threadId", async (req, res) => {
   const { threadId } = req.params;
   try {
@@ -78,7 +149,21 @@ router.get("/replies/thread/:threadId", async (req, res) => {
   }
 });
 
-// PUT /replies/:id - Update a specific reply by ID
+/**
+ * PUT /replies/:id
+ *
+ * This route updates a specific reply's information in the database based on the provided ID.
+ * It expects the reply's ID as a parameter in the URL and the updated reply information in the request body.
+ * If the reply is successfully updated, it returns the updated reply as JSON.
+ * If the reply is not found, it returns a 404 Not Found error.
+ *
+ * @param {object} req - The HTTP request object.
+ * @param {object} req.params - The HTTP request parameters.
+ * @param {number} req.params.id - The ID of the reply to update.
+ * @param {Reply} req.body - The HTTP request body contains the updated reply information.
+ * @param {object} res - The HTTP response object.
+ * @returns {object} JSON response with either the updated reply or an error message.
+ */
 router.put("/replies/:id", async (req, res) => {
   const { id } = req.params;
   const { content, status } = req.body;
@@ -109,7 +194,20 @@ router.put("/replies/:id", async (req, res) => {
   }
 });
 
-// DELETE /replies/:id - Delete a specific reply by ID
+/**
+ * DELETE /replies/:id
+ *
+ * This route deletes a specific reply from the database based on the provided ID.
+ * It expects the reply's ID as a parameter in the URL.
+ * If the reply is successfully deleted, it returns a success message.
+ * If the reply is not found, it returns a 404 Not Found error.
+ *
+ * @param {object} req - The HTTP request object.
+ * @param {object} req.params - The HTTP request parameters.
+ * @param {number} req.params.id - The ID of the reply to delete.
+ * @param {object} res - The HTTP response object.
+ * @returns {object} JSON response with either a success message or an error message.
+ */
 router.delete("/replies/:id", async (req, res) => {
   const { id } = req.params;
   try {
