@@ -3,7 +3,33 @@ const router = express.Router();
 const knexConfig = require("../db/knexfile");
 const knex = require("knex")(knexConfig.development);
 
-// POST /threads - Create a new thread
+/**
+ * Thread Parameters
+ * Represents the structure of a thread object in the system.
+ *
+ * @typedef {object} Thread
+ * @property {number} thread_id - Unique identifier for the thread.
+ * @property {string} title - Title of the thread.
+ * @property {string} content - Content of the thread.
+ * @property {number} user_id - ID of the user who created the thread.
+ * @property {string} status - Status of the thread.
+ * @property {string} created_at - Timestamp of when the thread was created.
+ * @property {string} updated_at - Timestamp of when the thread was last updated.
+ */
+
+/**
+ * POST /threads
+ *
+ * This route creates a new thread in the database.
+ * It expects the thread's title, content, user_id, and status in the request body.
+ * If the thread is successfully created, it returns the newly created thread as JSON.
+ * If there are validation errors or other issues, it returns an appropriate error message.
+ *
+ * @param {object} req - The HTTP request object.
+ * @param {Thread} req.body - The HTTP request body contains the thread.
+ * @param {object} res - The HTTP response object.
+ * @returns {object} JSON response with either the newly created thread or an error message.
+ */
 router.post("/threads", async (req, res) => {
   const { title, content, user_id, status } = req.body;
 
@@ -27,7 +53,15 @@ router.post("/threads", async (req, res) => {
   }
 });
 
-// Validate thread data
+/**
+ * Validate thread data
+ * @param {object} thread - The thread object to validate.
+ * @param {string} thread.title - The title of the thread.
+ * @param {string} thread.content - The content of the thread.
+ * @param {number} thread.user_id - The ID of the user who created the thread.
+ * @param {string} thread.status - The status of the thread.
+ * @returns {string|null} Validation error message or null if valid.
+ */
 function validateThread({ title, content, user_id, status }) {
   if (!title || !content || !user_id || !status) {
     return "Title, content, user_id, and status are required.";
@@ -47,7 +81,20 @@ function validateThread({ title, content, user_id, status }) {
   return null;
 }
 
-// GET /threads/:id - Get a specific thread by ID
+/**
+ * GET /threads/:id
+ *
+ * This route retrieves a specific thread's information from the database based on the provided ID.
+ * It expects the thread's ID as a parameter in the URL.
+ * If the thread is found, it returns the thread's information as JSON.
+ * If the thread is not found, it returns a 404 Not Found error.
+ *
+ * @param {object} req - The HTTP request object.
+ * @param {object} req.params - The HTTP request parameters.
+ * @param {number} req.params.id - The ID of the thread to retrieve.
+ * @param {object} res - The HTTP response object.
+ * @returns {object} JSON response with either the thread's information or an error message.
+ */
 router.get("/threads/:id", async (req, res) => {
   const { id } = req.params;
   try {
@@ -62,7 +109,17 @@ router.get("/threads/:id", async (req, res) => {
   }
 });
 
-// GET /threads - Retrieve all threads
+/**
+ * GET /threads
+ *
+ * This route retrieves all threads from the database.
+ * It returns an array of thread objects as JSON.
+ * If there is an error retrieving the threads, it returns an appropriate error message.
+ *
+ * @param {object} req - The HTTP request object.
+ * @param {object} res - The HTTP response object.
+ * @returns {object} JSON response with either the array of threads or an error message.
+ */
 router.get("/threads", async (req, res) => {
   try {
     const threads = await knex("Threads").select("*");
@@ -73,7 +130,20 @@ router.get("/threads", async (req, res) => {
   }
 });
 
-// PUT /threads/:id - Update a specific thread by ID
+/**
+ * PUT /threads/:id
+ * This route updates a specific thread's information in the database based on the provided ID.
+ * It expects the thread's ID as a parameter in the URL and the updated thread information in the request body.
+ * If the thread is successfully updated, it returns the updated thread as JSON.
+ * If the thread is not found, it returns a 404 Not Found error.
+ *
+ * @param {object} req - The HTTP request object.
+ * @param {object} req.params - The HTTP request parameters.
+ * @param {number} req.params.id - The ID of the thread to update.
+ * @param {Thread} req.body - The HTTP request body contains the updated thread information.
+ * @param {object} res - The HTTP response object.
+ * @returns {object} JSON response with either the updated thread or an error message.
+ */
 router.put("/threads/:id", async (req, res) => {
   const { id } = req.params;
   const { title, content, status } = req.body;
@@ -106,7 +176,20 @@ router.put("/threads/:id", async (req, res) => {
   }
 });
 
-// DELETE /threads/:id - Delete a specific thread by ID
+/**
+ * DELETE /threads/:id
+ *
+ * This route deletes a specific thread from the database based on the provided ID.
+ * It expects the thread's ID as a parameter in the URL.
+ * If the thread is successfully deleted, it returns a success message.
+ * If the thread is not found, it returns a 404 Not Found error.
+ *
+ * @param {object} req - The HTTP request object.
+ * @param {object} req.params - The HTTP request parameters.
+ * @param {number} req.params.id - The ID of the thread to delete.
+ * @param {object} res - The HTTP response object.
+ * @returns {object} JSON response with either a success message or an error message.
+ */
 router.delete("/threads/:id", async (req, res) => {
   const { id } = req.params;
   try {

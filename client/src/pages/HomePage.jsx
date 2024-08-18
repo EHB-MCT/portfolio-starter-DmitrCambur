@@ -249,7 +249,6 @@ const HomePage = () => {
                   onClick={() => handleThreadClick(thread.thread_id)}
                 >
                   <p className="font-bold italic">{thread.username}</p>
-                  <p className="text-sm text-gray-500">{thread.status}</p>
                   <p className="font-bold text-lg mt-2 break-words overflow-hidden">
                     {thread.title}
                   </p>

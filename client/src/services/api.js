@@ -1,6 +1,12 @@
 // Define the base URL for the API
 const API_BASE_URL = "http://localhost:8080/api";
 
+/**
+ * Create a new user.
+ * @param {Object} userData - The data of the user to create.
+ * @returns {Object} The created user data.
+ * @throws Will throw an error if the request fails.
+ */
 export async function createUser(userData) {
   try {
     const response = await fetch(`${API_BASE_URL}/users`, {
@@ -34,6 +40,12 @@ export async function createUser(userData) {
   }
 }
 
+/**
+ * Log in a user.
+ * @param {Object} credentials - The login credentials.
+ * @returns {Object} The logged-in user data.
+ * @throws Will throw an error if the request fails.
+ */
 export async function loginUser(credentials) {
   try {
     const response = await fetch(`${API_BASE_URL}/users/login`, {
@@ -66,6 +78,12 @@ export async function loginUser(credentials) {
   }
 }
 
+/**
+ * Get a user by ID.
+ * @param {string} userId - The ID of the user to fetch.
+ * @returns {Object} The user data.
+ * @throws Will throw an error if the request fails.
+ */
 export async function getUserById(userId) {
   try {
     const response = await fetch(`${API_BASE_URL}/users/${userId}`);
@@ -81,7 +99,11 @@ export async function getUserById(userId) {
   }
 }
 
-// New function to fetch all users
+/**
+ * Fetch all users.
+ * @returns {Array} The list of all users.
+ * @throws Will throw an error if the request fails.
+ */
 export async function fetchAllUsers() {
   try {
     const response = await fetch(`${API_BASE_URL}/users`);
@@ -95,6 +117,13 @@ export async function fetchAllUsers() {
   }
 }
 
+/**
+ * Update a user by ID.
+ * @param {string} userId - The ID of the user to update.
+ * @param {Object} userUpdates - The updates to apply to the user.
+ * @returns {Object} The updated user data.
+ * @throws Will throw an error if the request fails.
+ */
 export async function updateUser(userId, userUpdates) {
   try {
     const response = await fetch(`${API_BASE_URL}/users/${userId}`, {
@@ -116,6 +145,12 @@ export async function updateUser(userId, userUpdates) {
   }
 }
 
+/**
+ * Delete a user by ID.
+ * @param {string} userId - The ID of the user to delete.
+ * @returns {Object} The response data.
+ * @throws Will throw an error if the request fails.
+ */
 export async function deleteUser(userId) {
   try {
     const response = await fetch(`${API_BASE_URL}/users/${userId}`, {
@@ -133,7 +168,12 @@ export async function deleteUser(userId) {
   }
 }
 
-// Thread functions
+/**
+ * Create a new thread.
+ * @param {Object} threadData - The data of the thread to create.
+ * @returns {Object} The created thread data.
+ * @throws Will throw an error if the request fails.
+ */
 export async function createThread(threadData) {
   try {
     const response = await fetch(`${API_BASE_URL}/threads`, {
@@ -157,6 +197,12 @@ export async function createThread(threadData) {
   }
 }
 
+/**
+ * Get a thread by ID.
+ * @param {string} threadId - The ID of the thread to fetch.
+ * @returns {Object} The thread data.
+ * @throws Will throw an error if the request fails.
+ */
 export async function getThreadById(threadId) {
   try {
     const response = await fetch(`${API_BASE_URL}/threads/${threadId}`);
@@ -172,7 +218,11 @@ export async function getThreadById(threadId) {
   }
 }
 
-// New function to fetch all threads
+/**
+ * Fetch all threads.
+ * @returns {Array} The list of all threads.
+ * @throws Will throw an error if the request fails.
+ */
 export async function fetchAllThreads() {
   try {
     const response = await fetch(`${API_BASE_URL}/threads`);
@@ -186,6 +236,13 @@ export async function fetchAllThreads() {
   }
 }
 
+/**
+ * Update a thread by ID.
+ * @param {string} threadId - The ID of the thread to update.
+ * @param {Object} threadUpdates - The updates to apply to the thread.
+ * @returns {Object} The updated thread data.
+ * @throws Will throw an error if the request fails.
+ */
 export async function updateThread(threadId, threadUpdates) {
   try {
     const response = await fetch(`${API_BASE_URL}/threads/${threadId}`, {
@@ -207,6 +264,12 @@ export async function updateThread(threadId, threadUpdates) {
   }
 }
 
+/**
+ * Delete a thread by ID.
+ * @param {string} threadId - The ID of the thread to delete.
+ * @returns {Object} The response data.
+ * @throws Will throw an error if the request fails.
+ */
 export async function deleteThread(threadId) {
   try {
     const response = await fetch(`${API_BASE_URL}/threads/${threadId}`, {
@@ -224,7 +287,12 @@ export async function deleteThread(threadId) {
   }
 }
 
-// Reply functions
+/**
+ * Create a new reply.
+ * @param {Object} replyData - The data of the reply to create.
+ * @returns {Object} The created reply data.
+ * @throws Will throw an error if the request fails.
+ */
 export async function createReply(replyData) {
   try {
     const response = await fetch(`${API_BASE_URL}/replies`, {
@@ -246,6 +314,12 @@ export async function createReply(replyData) {
   }
 }
 
+/**
+ * Get a reply by ID.
+ * @param {string} replyId - The ID of the reply to fetch.
+ * @returns {Object} The reply data.
+ * @throws Will throw an error if the request fails.
+ */
 export async function getReplyById(replyId) {
   try {
     const response = await fetch(`${API_BASE_URL}/replies/${replyId}`);
@@ -261,6 +335,12 @@ export async function getReplyById(replyId) {
   }
 }
 
+/**
+ * Fetch all replies for a specific thread.
+ * @param {string} threadId - The ID of the thread to fetch replies for.
+ * @returns {Array} The list of replies for the thread.
+ * @throws Will throw an error if the request fails.
+ */
 export async function fetchRepliesForThread(threadId) {
   try {
     const response = await fetch(`${API_BASE_URL}/replies/thread/${threadId}`);
@@ -274,7 +354,11 @@ export async function fetchRepliesForThread(threadId) {
   }
 }
 
-// New function to fetch all replies
+/**
+ * Fetch all replies.
+ * @returns {Array} The list of all replies.
+ * @throws Will throw an error if the request fails.
+ */
 export async function fetchAllReplies() {
   try {
     const response = await fetch(`${API_BASE_URL}/replies`);
@@ -288,6 +372,13 @@ export async function fetchAllReplies() {
   }
 }
 
+/**
+ * Update a reply by ID.
+ * @param {string} replyId - The ID of the reply to update.
+ * @param {Object} replyUpdates - The updates to apply to the reply.
+ * @returns {Object} The updated reply data.
+ * @throws Will throw an error if the request fails.
+ */
 export async function updateReply(replyId, replyUpdates) {
   try {
     const response = await fetch(`${API_BASE_URL}/replies/${replyId}`, {
@@ -308,7 +399,14 @@ export async function updateReply(replyId, replyUpdates) {
     throw error;
   }
 }
-// Update the status of a reply
+
+/**
+ * Update the status of a reply.
+ * @param {string} replyId - The ID of the reply to update.
+ * @param {string} status - The new status of the reply.
+ * @returns {Object} The updated reply data.
+ * @throws Will throw an error if the request fails.
+ */
 export async function updateReplyStatus(replyId, status) {
   try {
     const response = await fetch(`${API_BASE_URL}/replies/${replyId}`, {
@@ -330,6 +428,12 @@ export async function updateReplyStatus(replyId, status) {
   }
 }
 
+/**
+ * Delete a reply by ID.
+ * @param {string} replyId - The ID of the reply to delete.
+ * @returns {Object} The response data.
+ * @throws Will throw an error if the request fails.
+ */
 export async function deleteReply(replyId) {
   try {
     const response = await fetch(`${API_BASE_URL}/replies/${replyId}`, {

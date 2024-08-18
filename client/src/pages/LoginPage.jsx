@@ -9,15 +9,21 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
     try {
       const credentials = { username, password };
+      console.log("Logging in with credentials:", credentials); // Debug log
       const result = await loginUser(credentials);
+      console.log("Login result:", result); // Debug log
       if (result.user) {
         sessionStorage.setItem("user", JSON.stringify(result.user));
-        navigate("/home"); // Navigate to home page after successful login
+        setTimeout(() => {
+          navigate("/home"); // Navigate to home page after successful login
+        }, 1000); // 1 second delay
       }
     } catch (err) {
+      console.error("Login error:", err); // Debug log
       setError(err.message); // Display error message if login fails
     }
   };
